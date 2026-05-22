@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:           #0F0E0D;
+  --surface:      #1A1916;
+  --surface2:     #252320;
+  --surface3:     #2F2C27;
+  --accent:       #FF6B35;
+  --accent2:      #FFB347;
+  --text:         #F5F0E8;
+  --text-muted:   #8A8070;
+  --text-dim:     #5A5248;
+  --success:      #7CB87C;
+  --border:       rgba(245,240,232,0.06);
+}
+
+html, body, #root {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 2px; }
+
+.display { font-family: 'Cormorant Garamond', serif; }
+.mono    { font-family: 'JetBrains Mono', monospace; }
+
+button  { cursor: pointer; border: none; background: none; color: inherit; font-family: inherit; -webkit-tap-highlight-color: transparent; }
+input, textarea, select { font-family: inherit; color: var(--text); }
+a { color: inherit; text-decoration: none; }
+
+/* ── Animations ── */
+@keyframes fadeUp    { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn    { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp   { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes cardIn    { from { transform: scale(0.93) translateY(18px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+@keyframes numRoll   { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes badgePop  { 0% { transform: scale(0.5) rotate(-8deg); opacity: 0; } 60% { transform: scale(1.12) rotate(2deg); } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+@keyframes pulse     { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+@keyframes spin      { to { transform: rotate(360deg); } }
+
+.fade-up  { animation: fadeUp  0.35s ease both; }
+.fade-in  { animation: fadeIn  0.25s ease both; }
+.slide-up { animation: slideUp 0.3s  ease both; }
+
+/* ── Glass ── */
+.glass {
+  background: rgba(26,25,22,0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* ── Spinner ── */
+.spinner {
+  width: 28px; height: 28px;
+  border: 2px solid var(--surface2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
