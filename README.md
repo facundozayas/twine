@@ -15,7 +15,7 @@ A couples app to save, rank, and experience plans together — with real-time sy
 5. Go to **Settings → API** → copy:
    - `Project URL` → this is your `VITE_SUPABASE_URL`
    - `anon public` key → this is your `VITE_SUPABASE_ANON_KEY`
-
+.
 ---
 
 ### Step 2 — GitHub
