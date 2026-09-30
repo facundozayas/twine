@@ -4,6 +4,14 @@ import Icon from '../components/shared/Icon.jsx'
 
 const SECTIONS = [
   {
+    emoji: '🎯', title: 'Goals',
+    content: 'Open Goals → "New goal". Pick whose goal it is (you, your partner, or Both), an optional target date and a line on why it matters. Inside, add milestones — small steps you tick off like a list — and the progress bar fills up. Tap "👏 Cheer" on your partner\'s goal to send encouragement; it shows up on their Home. When it\'s done, "Mark as achieved" 🎉.',
+  },
+  {
+    emoji: '🎨', title: 'Themes',
+    content: 'Tap your name at the top right and pick a theme: Night, Day, Blossom, Lavender, or Auto (follows your phone\'s light/dark setting). It only changes your phone, so each of you can have your own.',
+  },
+  {
     emoji: '🏃', title: 'Fitness',
     content: 'Open Fitness (or tap the habits in the Today card on Home). Tap a habit to mark it done — tap again to undo. When you tick Training, pick the type and add km or a note if you like. Sleep uses − and +. Use the arrows at the top to fill in a day you forgot, and the Facu / Janina switch to see each other. History shows the last two weeks, your streaks 🔥 and 30-day stats; tap any day there to edit it. "Edit habits" lets you hide a habit or add new ones (like Water).',
   },

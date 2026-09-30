@@ -55,7 +55,7 @@ export function TrainingHabit({ habit, person, log, streak, onToggle, onDetail }
               return (
                 <button key={t} onClick={() => onDetail({ type: on ? null : t })} style={{
                   padding: '6px 12px', borderRadius: T.radius.full, fontSize: 13, fontWeight: 500,
-                  background: on ? person.color : T.surface2, color: on ? '#0F0E0D' : T.textMuted,
+                  background: on ? person.color : T.surface2, color: on ? T.onAccent : T.textMuted,
                   border: `1px solid ${on ? person.color : T.border}`,
                 }}>{t}</button>
               )

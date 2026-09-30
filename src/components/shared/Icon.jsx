@@ -28,16 +28,18 @@ const PATHS = {
   chevronD: <polyline points="6 9 12 15 18 9"/>,
   chevronL: <polyline points="15 18 9 12 15 6"/>,
   chevronR: <polyline points="9 18 15 12 9 6"/>,
+  flag:     <><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></>,
   activity: <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>,
 }
 
 export default function Icon({ name, size = 20, color = 'currentColor', style }) {
+  // Color goes in `style` (not the stroke attribute) so theme CSS variables work
   return (
     <svg
       width={size} height={size} viewBox="0 0 24 24"
-      fill="none" stroke={color} strokeWidth="1.8"
+      fill="none" strokeWidth="1.8"
       strokeLinecap="round" strokeLinejoin="round"
-      style={style}
+      style={{ stroke: color, ...style }}
     >
       {PATHS[name] || null}
     </svg>

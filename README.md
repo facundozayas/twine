@@ -12,7 +12,7 @@ A couples app to save, rank, and experience plans together — with real-time sy
 2. Click **"New project"** → choose a name (e.g. `twine`) → set a password → Create
 3. Wait ~1 min for project to spin up
 4. Go to **SQL Editor** (left sidebar) → paste the contents of `supabase_schema.sql` → click **Run**
-   - Then do the same with `supabase/002_shopping_lists.sql` and `supabase/003_fitness.sql` (safe to re-run)
+   - Then do the same with `supabase/002_shopping_lists.sql`, `003_fitness.sql` and `004_goals.sql` (safe to re-run)
 5. Go to **Settings → API** → copy:
    - `Project URL` → this is your `VITE_SUPABASE_URL`
    - `anon public` key → this is your `VITE_SUPABASE_ANON_KEY`
@@ -80,12 +80,21 @@ src/
 │       ├── useListsStore.js   # State, optimistic writes, autocomplete
 │       ├── constants.js       # List emojis, autocomplete seed
 │       └── components/        # ItemRow, NewItemInput, sheets
-│   └── fitness/               # Daily habits (same pattern as lists)
+│   ├── fitness/               # Daily habits (same pattern as lists)
 │       ├── FitnessView.jsx    # Day / History switch
 │       ├── TodayView.jsx      # One day, one person, arrows for past days
 │       ├── HistoryView.jsx    # 14-day grid, streaks, 30-day stats
 │       ├── useFitnessStore.js # State, optimistic writes, streak + stats
 │       └── components/        # Habit rows, editor sheet, Home Today card
+│   └── goals/                 # Goals with date, milestones and cheers
+│       ├── GoalsView.jsx      # Open goals by nearest date + Achieved
+│       ├── GoalDetail.jsx     # Countdown, why, milestones, cheer, achieve
+│       ├── useGoalsStore.js   # State + countdown/progress selectors
+│       └── components/        # Form sheet, Home card, confetti
+├── theme/
+│   ├── themes.js              # Night, Day, Blossom, Lavender color sets
+│   └── useTheme.js            # Applies a theme (per phone), Auto mode
+├── components/checklist/      # Checkbox row + add line, shared by Lists and Goals
 ├── views/
 │   ├── UserSelect.jsx         # Initial profile picker
 │   ├── UserSwitcher.jsx       # Switch profile modal
@@ -124,6 +133,9 @@ src/
 | `shopping_items` | Items; cleared items are kept for autocomplete |
 | `habits` | What each person tracks (yes/no, training, number) |
 | `habit_logs` | One row per habit per day; no row = not done |
+| `goals` | Goal, owner (facu / janina / both), optional date, why |
+| `goal_milestones` | Checklist steps for each goal |
+| `goal_cheers` | 👏 sent to a goal; shown on the owner's Home until seen |
 
 ---
 
@@ -136,6 +148,8 @@ src/
 - **Mutual Top 5** — average of both rankings
 - **Post-date experience** — rate mood, fun, would repeat
 - **Insights** — stats, charts, badges
+- **Goals** — countdown, milestones and cheering each other on
+- **Themes** — Night, Day, Blossom, Lavender or Auto, chosen per phone
 - **Fitness** — daily habits per person, training detail, sleep, streaks and history
 - **Shopping lists** — one per home plus event lists, check off together in real time, autocomplete, move items between homes
 - **Full CRUD** — add, edit notes, change status, delete plans

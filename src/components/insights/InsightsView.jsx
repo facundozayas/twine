@@ -303,7 +303,7 @@ export default function InsightsView({ plans, currentUser }) {
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
         padding: '14px', borderRadius: T.radius.lg, width: '100%',
         background: T.surface, color: T.success, fontWeight: 600, fontSize: 14,
-        border: `1px solid ${T.success}44`, transition: 'all 0.2s ease',
+        border: `1px solid ${T.successBorder}`, transition: 'all 0.2s ease',
       }}
         onMouseEnter={e => e.currentTarget.style.background = T.successSoft}
         onMouseLeave={e => e.currentTarget.style.background = T.surface}

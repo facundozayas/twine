@@ -3,7 +3,9 @@ import './index.css'
 import { useTwineStore } from './store/useTwineStore.js'
 import { useListsStore } from './features/lists/useListsStore.js'
 import { useFitnessStore } from './features/fitness/useFitnessStore.js'
+import { useGoalsStore } from './features/goals/useGoalsStore.js'
 import { today } from './lib/dates.js'
+import { useTheme } from './theme/useTheme.js'
 import { onAppResume } from './lib/realtime.js'
 import { USERS, T } from './constants/index.js'
 
@@ -17,6 +19,7 @@ import HomeView     from './views/HomeView.jsx'
 import PlansHub     from './views/PlansHub.jsx'
 import ListsView    from './features/lists/ListsView.jsx'
 import FitnessView  from './features/fitness/FitnessView.jsx'
+import GoalsView    from './features/goals/GoalsView.jsx'
 import AddPlanModal from './components/plans/AddPlanModal.jsx'
 
 // ── Toast component ──────────────────────────────────────────────────────────
@@ -28,7 +31,7 @@ function Toast({ toast }) {
       position: 'fixed', bottom: 90, left: '50%', transform: 'translateX(-50%)',
       background: bg, color: '#fff', padding: '10px 20px', borderRadius: T.radius.full,
       fontSize: 13, fontWeight: 600, zIndex: 300, whiteSpace: 'nowrap',
-      boxShadow: `0 4px 20px ${bg}66`,
+      boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
       animation: 'fadeUp 0.3s ease',
     }}>
       {toast.message}
@@ -54,22 +57,30 @@ export default function App() {
     addPlan, updateRanking, updateStatus, updateNotes, addExperience, deletePlan,
   } = useTwineStore()
 
+  const theme          = useTheme(s => s.active)
+  const initTheme      = useTheme(s => s.init)
   const fetchLists     = useListsStore(s => s.fetchAll)
   const subscribeLists = useListsStore(s => s.subscribe)
   const fetchFitness     = useFitnessStore(s => s.fetchAll)
   const subscribeFitness = useFitnessStore(s => s.subscribe)
+  const fetchGoals       = useGoalsStore(s => s.fetchAll)
+  const subscribeGoals   = useGoalsStore(s => s.subscribe)
+
+  useEffect(() => initTheme(), [])
 
   useEffect(() => {
     restoreUser()
     fetchPlans()
     fetchLists()
     fetchFitness()
+    fetchGoals()
     const unsubPlans   = subscribeRealtime()
     const unsubLists   = subscribeLists()
     const unsubFitness = subscribeFitness()
+    const unsubGoals   = subscribeGoals()
     // Catch up on anything missed while the phone was locked
-    const unsubResume = onAppResume(() => { fetchPlans(); fetchLists(); fetchFitness() })
-    return () => { unsubPlans(); unsubLists(); unsubFitness(); unsubResume() }
+    const unsubResume = onAppResume(() => { fetchPlans(); fetchLists(); fetchFitness(); fetchGoals() })
+    return () => { unsubPlans(); unsubLists(); unsubFitness(); unsubGoals(); unsubResume() }
   }, [])
 
   const currentUser = currentUserId ? USERS[currentUserId] : null
@@ -92,8 +103,9 @@ export default function App() {
   }
 
   const renderView = () => {
-    // Lists and Fitness load independently, so a plans hiccup never blocks them
+    // Lists, Fitness and Goals load independently, so a plans hiccup never blocks them
     if (tab === 'lists') return <ListsView currentUser={currentUser} />
+    if (tab === 'goals') return <GoalsView currentUser={currentUser} />
     if (tab === 'fitness') {
       // Default the person switch to whoever is using this phone
       const state = { ...fitness, personId: fitness.personId || currentUser.id }
@@ -128,7 +140,8 @@ export default function App() {
   }
 
   return (
-    <div style={{ maxWidth: 480, margin: '0 auto', minHeight: '100dvh', background: T.bg, position: 'relative' }}>
+    // key={theme}: re-render everything when the theme changes, so the personal colors update too
+    <div key={theme} style={{ maxWidth: 480, margin: '0 auto', minHeight: '100dvh', background: T.bg, position: 'relative' }}>
       <Header
         currentUser={currentUser}
         onSwitchUser={() => setShowSwitcher(true)}

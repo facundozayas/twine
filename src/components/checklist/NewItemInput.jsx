@@ -1,18 +1,18 @@
 import { useState, useRef, useMemo } from 'react'
-import { T } from '../../../constants/index.js'
-import { suggestItems } from '../useListsStore.js'
+import { T } from '../../constants/index.js'
 
 /**
- * The always-empty line at the end of a list. Type + Enter adds the item and
+ * The always-empty line at the end of a checklist. Type + Enter adds the item and
  * keeps the keyboard open for the next one. Pasting several lines adds them all.
+ * `getSuggestions(text)` is optional and returns autocomplete chips.
  */
-export default function NewItemInput({ allItems, openTexts, onAdd, autoFocus, accent }) {
+export default function NewItemInput({ onAdd, autoFocus, accent, placeholder = 'Add item', getSuggestions }) {
   const [text, setText] = useState('')
   const inputRef = useRef(null)
 
   const suggestions = useMemo(
-    () => suggestItems(allItems, text, openTexts),
-    [allItems, text, openTexts],
+    () => (getSuggestions ? getSuggestions(text) : []),
+    [getSuggestions, text],
   )
 
   const commit = (value) => {
@@ -43,10 +43,10 @@ export default function NewItemInput({ allItems, openTexts, onAdd, autoFocus, ac
           onChange={e => setText(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); commit(text) } }}
           onPaste={handlePaste}
-          placeholder="Add item"
+          placeholder={placeholder}
           enterKeyHint="enter"
           autoCapitalize="sentences"
-          aria-label="Add item"
+          aria-label={placeholder}
           style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: 15, padding: '2px 0', color: T.text }}
         />
       </div>

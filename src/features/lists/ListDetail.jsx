@@ -1,17 +1,18 @@
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { T } from '../../constants/index.js'
 import Icon from '../../components/shared/Icon.jsx'
 import BottomSheet, { SheetAction, Overlay } from '../../components/shared/BottomSheet.jsx'
-import { useListsStore, listItems, sortLists } from './useListsStore.js'
-import ItemRow from './components/ItemRow.jsx'
-import NewItemInput from './components/NewItemInput.jsx'
-import ItemActionsSheet from './components/ItemActionsSheet.jsx'
+import { useListsStore, listItems, sortLists, suggestItems } from './useListsStore.js'
+import ItemRow from '../../components/checklist/ItemRow.jsx'
+import NewItemInput from '../../components/checklist/NewItemInput.jsx'
+import ItemActionsSheet from '../../components/checklist/ItemActionsSheet.jsx'
 import ListFormSheet from './components/ListFormSheet.jsx'
 
 export default function ListDetail({ list, currentUser, onBack }) {
   const store = useListsStore()
   const { open, done } = useMemo(() => listItems(store.items, list.id), [store.items, list.id])
   const openTexts = useMemo(() => open.map(i => i.text), [open])
+  const getSuggestions = useCallback(text => suggestItems(store.items, text, openTexts), [store.items, openTexts])
   const otherLists = useMemo(
     () => sortLists(store.lists.filter(l => l.id !== list.id && !l.archived_at)),
     [store.lists, list.id],
@@ -68,8 +69,7 @@ export default function ListDetail({ list, currentUser, onBack }) {
             onLongPress={() => setActionItem(item)} />
         ))}
         <NewItemInput
-          allItems={store.items}
-          openTexts={openTexts}
+          getSuggestions={getSuggestions}
           accent={currentUser}
           autoFocus={open.length === 0}
           onAdd={texts => store.addItems(list.id, texts, uid)}

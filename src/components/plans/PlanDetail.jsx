@@ -58,7 +58,7 @@ function ExperienceForm({ userId, existingExp, onSubmit, onCancel, loading }) {
             padding: '6px 14px', borderRadius: T.radius.full, fontSize: 12, fontWeight: 600,
             background: form.would_repeat ? T.successSoft : T.surface3,
             color: form.would_repeat ? T.success : T.textMuted,
-            border: `1px solid ${form.would_repeat ? T.success + '55' : T.border}`,
+            border: `1px solid ${form.would_repeat ? T.successBorder : T.border}`,
             transition: 'all 0.2s ease',
           }}>{form.would_repeat ? 'Yes! 👍' : 'Not again'}</button>
         </div>

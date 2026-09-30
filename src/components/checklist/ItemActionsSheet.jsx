@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { T } from '../../../constants/index.js'
-import BottomSheet, { SheetAction } from '../../../components/shared/BottomSheet.jsx'
+import { T } from '../../constants/index.js'
+import BottomSheet, { SheetAction } from '../shared/BottomSheet.jsx'
 
 /** Long-press menu for an item: edit text, move to another list, delete. */
 export default function ItemActionsSheet({ item, otherLists, onRename, onMove, onDelete, onClose }) {

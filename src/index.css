@@ -18,10 +18,13 @@
   --text-dim:     #5A5248;
   --success:      #7CB87C;
   --border:       rgba(245,240,232,0.06);
+  --glass:        rgba(26,25,22,0.88);
+  /* Full set is applied at runtime by src/theme/useTheme.js */
 }
 
 html, body, #root {
   background: var(--bg);
+  transition: background-color 0.3s ease;
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
   min-height: 100vh;
@@ -50,6 +53,7 @@ a { color: inherit; text-decoration: none; }
 @keyframes badgePop  { 0% { transform: scale(0.5) rotate(-8deg); opacity: 0; } 60% { transform: scale(1.12) rotate(2deg); } 100% { transform: scale(1) rotate(0); opacity: 1; } }
 @keyframes pulse     { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
 @keyframes spin      { to { transform: rotate(360deg); } }
+@keyframes confetti  { 0% { transform: translateY(-10vh) rotate(0); opacity: 1; } 100% { transform: translateY(105vh) rotate(540deg); opacity: 0.9; } }
 
 .fade-up  { animation: fadeUp  0.35s ease both; }
 .fade-in  { animation: fadeIn  0.25s ease both; }
@@ -57,7 +61,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ── Glass ── */
 .glass {
-  background: rgba(26,25,22,0.88);
+  background: var(--glass);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
 }

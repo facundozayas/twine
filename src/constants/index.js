@@ -44,21 +44,19 @@ export const PLAN_CATEGORIES = CATEGORIES.filter(c => c.id !== 'all' && c.id !==
 export const getCat = (id) => CATEGORIES.find(c => c.id === id) || CATEGORIES[2]
 
 // ─── DESIGN TOKENS ───────────────────────────────────────────────────────────
+// Colors are CSS variables so the whole app can switch theme instantly.
+// The actual values for each theme live in src/theme/themes.js.
+const COLOR_TOKENS = [
+  'bg', 'surface', 'surface2', 'surface3',
+  'accent', 'accent2', 'accentSoft', 'borderAccent',
+  'text', 'textMuted', 'textDim',
+  'success', 'successSoft', 'successBorder',
+  'border', 'glass', 'onAccent',
+]
+const toVar = key => `var(--${key.replace(/[A-Z]/g, m => `-${m.toLowerCase()}`)})`
+
 export const T = {
-  bg:           '#0F0E0D',
-  surface:      '#1A1916',
-  surface2:     '#252320',
-  surface3:     '#2F2C27',
-  accent:       '#FF6B35',
-  accent2:      '#FFB347',
-  accentSoft:   'rgba(255,107,53,0.12)',
-  text:         '#F5F0E8',
-  textMuted:    '#8A8070',
-  textDim:      '#5A5248',
-  success:      '#7CB87C',
-  successSoft:  'rgba(124,184,124,0.15)',
-  border:       'rgba(245,240,232,0.06)',
-  borderAccent: 'rgba(255,107,53,0.25)',
+  ...Object.fromEntries(COLOR_TOKENS.map(k => [k, toVar(k)])),
   radius: { sm: 8, md: 12, lg: 16, xl: 20, xxl: 24, full: 9999 },
 }
 

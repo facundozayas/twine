@@ -28,7 +28,7 @@ export default function HabitShell({ habit, person, done, onTap, right, children
           background: done ? person.color : T.surface2,
           transition: 'background 0.2s ease',
         }}>
-          {done && habit.kind !== 'number' ? <Icon name="check" size={18} color="#0F0E0D" /> : habit.emoji}
+          {done && habit.kind !== 'number' ? <Icon name="check" size={18} color={T.onAccent} /> : habit.emoji}
         </span>
         <span style={{ flex: 1, fontSize: 15, fontWeight: 500, color: done ? person.color : T.text }}>{habit.name}</span>
         {right}

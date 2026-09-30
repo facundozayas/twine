@@ -1,10 +1,11 @@
-import { T, getUser } from '../../../constants/index.js'
-import { useLongPress } from '../../../hooks/useLongPress.js'
-import Icon from '../../../components/shared/Icon.jsx'
+import { T, getUser } from '../../constants/index.js'
+import { useLongPress } from '../../hooks/useLongPress.js'
+import Icon from '../shared/Icon.jsx'
 
 /**
- * One line of a list: checkbox + text + who added it.
+ * One checklist line (shopping items, goal milestones): checkbox + text + who added it.
  * Tap anywhere on the row to check/uncheck. Long-press for Edit / Move / Delete.
+ * item: { text, checked, added_by }
  */
 export default function ItemRow({ item, currentUser, onToggle, onLongPress }) {
   const press = useLongPress({ onTap: onToggle, onLongPress })
@@ -29,7 +30,7 @@ export default function ItemRow({ item, currentUser, onToggle, onLongPress }) {
         background: checked ? T.success : 'transparent',
         transition: 'all 0.15s ease',
       }}>
-        {checked && <Icon name="check" size={14} color="#0F0E0D" />}
+        {checked && <Icon name="check" size={14} color={T.onAccent} />}
       </span>
 
       <span style={{

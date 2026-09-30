@@ -3,6 +3,7 @@ import PlanCard from '../components/plans/PlanCard.jsx'
 import UserAvatar from '../components/shared/UserAvatar.jsx'
 import Icon from '../components/shared/Icon.jsx'
 import TodayCard from '../features/fitness/components/TodayCard.jsx'
+import GoalsHomeCard from '../features/goals/components/GoalsHomeCard.jsx'
 
 export default function HomeView({ plans, currentUser, onNavigate }) {
   const partnerId = currentUser.id === 'janina' ? 'facu' : 'janina'
@@ -46,6 +47,7 @@ export default function HomeView({ plans, currentUser, onNavigate }) {
 
       {/* Today's habits — the daily reason to open the app */}
       <TodayCard currentUser={currentUser} onOpen={() => onNavigate('fitness')} />
+      <GoalsHomeCard currentUser={currentUser} onOpen={() => onNavigate('goals')} />
 
       {/* Partner nudge */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', borderRadius: T.radius.lg, background: T.surface, border: `1px solid ${T.border}` }}>
