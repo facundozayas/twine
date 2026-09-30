@@ -26,13 +26,13 @@ export default function Header({ currentUser, onSwitchUser, onAddPlan, onHelp })
           <Icon name="switch" size={12} color={currentUser.color} />
         </button>
 
-        {/* Add */}
-        <button onClick={onAddPlan} style={{ width: 34, height: 34, borderRadius: T.radius.md, background: currentUser.colorSoft, border: `1px solid ${currentUser.colorBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s ease' }}
+        {/* Add plan — hidden on tabs that have their own add button */}
+        {onAddPlan && <button onClick={onAddPlan} style={{ width: 34, height: 34, borderRadius: T.radius.md, background: currentUser.colorSoft, border: `1px solid ${currentUser.colorBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s ease' }}
           onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.08)'}
           onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
         >
           <Icon name="plus" size={17} color={currentUser.color} />
-        </button>
+        </button>}
       </div>
     </header>
   )

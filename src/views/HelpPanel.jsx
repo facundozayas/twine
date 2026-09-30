@@ -4,12 +4,16 @@ import Icon from '../components/shared/Icon.jsx'
 
 const SECTIONS = [
   {
+    emoji: '🛒', title: 'Shopping lists',
+    content: 'Open Lists. Moabit Home and Mitte Home are always there; tap "New list" for anything else, like a party. Inside a list, type an item and press Enter — the line stays ready for the next one. Tap an item to check it off. Press and hold an item to edit it, move it to the other home, or delete it. "Clear checked" tidies up after shopping (and you can undo it). Lists you no longer need can be archived from the ⋯ menu and restored later.',
+  },
+  {
     emoji: '➕', title: 'Adding plans',
     content: 'Tap the + button in the top right. Fill in the title, category, cost and duration. Set your excitement level (1–10). Toggle "Recurring plan" for things you do regularly like movie nights or cooking at home — these go in the Regulars tab and don\'t need ranking.',
   },
   {
     emoji: '↔️', title: 'Ranking',
-    content: 'Go to the Rank tab. You\'ll see plans your partner added. Swipe right (Yes!) or left (Skip), then set your exact score 1–10. Your partner\'s score shows as a hint. The person who adds a plan sets their excitement score right away — the other person ranks it later.',
+    content: 'Go to Plans → Rank. You\'ll see plans your partner added. Swipe right (Yes!) or left (Skip), then set your exact score 1–10. Your partner\'s score shows as a hint. The person who adds a plan sets their excitement score right away — the other person ranks it later.',
   },
   {
     emoji: '✅', title: 'Marking as done',
@@ -21,11 +25,11 @@ const SECTIONS = [
   },
   {
     emoji: '📊', title: 'Reading insights',
-    content: 'Insights has two tabs: Expectations (your rankings before doing things) and Experiences (ratings after doing them). See your Top 5, biggest disagreements, and how you both rate things differently.',
+    content: 'Plans → Insights has two tabs: Expectations (your rankings before doing things) and Experiences (ratings after doing them). See your Top 5, biggest disagreements, and how you both rate things differently.',
   },
   {
     emoji: '📥', title: 'Exporting your data',
-    content: 'In Insights, scroll down and tap "Export to Excel". It downloads a .csv file with all your plans and ratings. You can open it in Excel or Google Sheets — or upload it to Claude and ask for personalized recommendations based on your history.',
+    content: 'In Plans → Insights, scroll down and tap "Export to Excel". It downloads a .csv file with all your plans and ratings. You can open it in Excel or Google Sheets — or upload it to Claude and ask for personalized recommendations based on your history.',
   },
   {
     emoji: '🔁', title: 'Regulars tab',

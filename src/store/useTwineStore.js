@@ -39,8 +39,8 @@ export const useTwineStore = create((set, get) => ({
   },
 
   // ── Toast ─────────────────────────────────────────────────────────────────
-  showToast: (msg) => {
-    set({ toast: msg })
+  showToast: (msg, tone = 'success') => {
+    set({ toast: { message: msg, tone } })
     setTimeout(() => set({ toast: null }), 2500)
   },
 

@@ -12,6 +12,7 @@ A couples app to save, rank, and experience plans together — with real-time sy
 2. Click **"New project"** → choose a name (e.g. `twine`) → set a password → Create
 3. Wait ~1 min for project to spin up
 4. Go to **SQL Editor** (left sidebar) → paste the contents of `supabase_schema.sql` → click **Run**
+   - Then do the same with `supabase/002_shopping_lists.sql` (shopping lists — safe to re-run)
 5. Go to **Settings → API** → copy:
    - `Project URL` → this is your `VITE_SUPABASE_URL`
    - `anon public` key → this is your `VITE_SUPABASE_ANON_KEY`
@@ -65,12 +66,23 @@ src/
 ├── index.css                  # Global styles + animations
 ├── main.jsx                   # React entry point
 ├── constants/index.js         # Users, categories, tokens, badges
-├── lib/supabase.js            # Supabase client
-├── store/useTwineStore.js     # Zustand state + all DB operations
+├── lib/
+│   ├── supabase.js            # Supabase client
+│   └── realtime.js            # Shared realtime + resume helpers
+├── hooks/useLongPress.js      # Tap vs long-press (touch + desktop)
+├── store/useTwineStore.js     # Plans state + DB operations, toasts
+├── features/
+│   └── lists/                 # Shopping lists (self-contained feature)
+│       ├── ListsView.jsx      # All lists + archived
+│       ├── ListDetail.jsx     # One list: items, add line, clear checked
+│       ├── useListsStore.js   # State, optimistic writes, autocomplete
+│       ├── constants.js       # List emojis, autocomplete seed
+│       └── components/        # ItemRow, NewItemInput, sheets
 ├── views/
 │   ├── UserSelect.jsx         # Initial profile picker
 │   ├── UserSwitcher.jsx       # Switch profile modal
 │   ├── HomeView.jsx           # Dashboard
+│   ├── PlansHub.jsx           # Plans tab: Ideas / Rank / Insights
 │   └── PlansView.jsx          # Plans list with category tabs
 └── components/
     ├── layout/
@@ -84,9 +96,8 @@ src/
     │   └── SwipeView.jsx
     ├── insights/
     │   └── InsightsView.jsx
-    ├── ai/
-    │   └── AIPanel.jsx
     └── shared/
+        ├── BottomSheet.jsx
         ├── Icon.jsx
         └── UserAvatar.jsx
 ```
@@ -99,6 +110,8 @@ src/
 |-------|---------|
 | `plans` | All saved plans with rankings per user |
 | `experiences` | Post-date feedback (one per plan) |
+| `shopping_lists` | Lists (Moabit Home, Mitte Home + custom, archivable) |
+| `shopping_items` | Items; cleared items are kept for autocomplete |
 
 ---
 
@@ -111,5 +124,5 @@ src/
 - **Mutual Top 5** — average of both rankings
 - **Post-date experience** — rate mood, fun, would repeat
 - **Insights** — stats, charts, badges
-- **AI assistant** — powered by Claude, knows your actual data
+- **Shopping lists** — one per home plus event lists, check off together in real time, autocomplete, move items between homes
 - **Full CRUD** — add, edit notes, change status, delete plans

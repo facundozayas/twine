@@ -128,7 +128,7 @@ export default function HomeView({ plans, currentUser, onNavigate }) {
             { icon: 'swipe',  label: 'Rank ideas',   sub: `${toRank} to rank`,         nav: 'rank',     color: currentUser.color },
             { icon: 'chart',  label: 'Insights',      sub: 'Expectations & experiences', nav: 'insights', color: '#B39DDB' },
             { icon: 'list',   label: 'All plans',     sub: `${plans.length} saved`,      nav: 'plans',    color: T.success },
-            { icon: 'refresh',label: 'Regulars',      sub: `${regulars.length} always on`, nav: 'plans', color: '#90CAF9' },
+            { icon: 'cart',   label: 'Lists',         sub: 'Shopping for both homes',   nav: 'lists',    color: '#90CAF9' },
           ].map(qa => (
             <button key={qa.nav + qa.label} onClick={() => onNavigate(qa.nav)} style={{ background: T.surface, border: `1px solid ${T.border}`, borderRadius: T.radius.lg, padding: '14px 16px', textAlign: 'left', transition: 'all 0.2s ease' }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = qa.color + '55'; e.currentTarget.style.background = T.surface2 }}
