@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { supabase } from '../../lib/supabase.js'
-import { subscribeTables, upsertById } from '../../lib/realtime.js'
-import { useTwineStore } from '../../store/useTwineStore.js'
+import { subscribeTables, applyChange } from '../../lib/realtime.js'
+import { optimistic, uuid, nowISO as now } from '../../lib/optimistic.js'
 import { COMMON_ITEMS } from './constants.js'
 
 // ─── Design notes ────────────────────────────────────────────────────────────
@@ -14,21 +14,10 @@ import { COMMON_ITEMS } from './constants.js'
 //   but feed autocomplete, so the app learns what you usually buy.
 
 const HISTORY_LIMIT = 3000
-const now = () => new Date().toISOString()
-const uuid = () => crypto.randomUUID()
 
 export const useListsStore = create((set, get) => {
   // Apply a local change right away, then persist it; roll back on failure.
-  const mutate = async (apply, persist) => {
-    const snapshot = { lists: get().lists, items: get().items }
-    set(state => apply(state))
-    const { error } = await persist()
-    if (error) {
-      set(snapshot)
-      useTwineStore.getState().showToast("Couldn't save — check your connection", 'error')
-    }
-    return { error }
-  }
+  const mutate = optimistic(set, get, ['lists', 'items'])
 
   const patchItem = (id, patch) => state => ({
     items: state.items.map(i => (i.id === id ? { ...i, ...patch } : i)),
@@ -57,11 +46,7 @@ export const useListsStore = create((set, get) => {
     subscribe: () =>
       subscribeTables('twine-lists', ['shopping_lists', 'shopping_items'], (table, payload) => {
         const key = table === 'shopping_lists' ? 'lists' : 'items'
-        set(state => ({
-          [key]: payload.eventType === 'DELETE'
-            ? state[key].filter(r => r.id !== payload.old.id)
-            : upsertById(state[key], payload.new),
-        }))
+        set(state => ({ [key]: applyChange(state[key], payload) }))
       }),
 
     // ── Lists ──────────────────────────────────────────────────────────────

@@ -12,7 +12,7 @@ A couples app to save, rank, and experience plans together — with real-time sy
 2. Click **"New project"** → choose a name (e.g. `twine`) → set a password → Create
 3. Wait ~1 min for project to spin up
 4. Go to **SQL Editor** (left sidebar) → paste the contents of `supabase_schema.sql` → click **Run**
-   - Then do the same with `supabase/002_shopping_lists.sql` (shopping lists — safe to re-run)
+   - Then do the same with `supabase/002_shopping_lists.sql` and `supabase/003_fitness.sql` (safe to re-run)
 5. Go to **Settings → API** → copy:
    - `Project URL` → this is your `VITE_SUPABASE_URL`
    - `anon public` key → this is your `VITE_SUPABASE_ANON_KEY`
@@ -68,7 +68,9 @@ src/
 ├── constants/index.js         # Users, categories, tokens, badges
 ├── lib/
 │   ├── supabase.js            # Supabase client
-│   └── realtime.js            # Shared realtime + resume helpers
+│   ├── realtime.js            # Shared realtime + resume helpers
+│   ├── optimistic.js          # Instant writes with rollback on failure
+│   └── dates.js               # Local calendar-day helpers
 ├── hooks/useLongPress.js      # Tap vs long-press (touch + desktop)
 ├── store/useTwineStore.js     # Plans state + DB operations, toasts
 ├── features/
@@ -78,6 +80,12 @@ src/
 │       ├── useListsStore.js   # State, optimistic writes, autocomplete
 │       ├── constants.js       # List emojis, autocomplete seed
 │       └── components/        # ItemRow, NewItemInput, sheets
+│   └── fitness/               # Daily habits (same pattern as lists)
+│       ├── FitnessView.jsx    # Day / History switch
+│       ├── TodayView.jsx      # One day, one person, arrows for past days
+│       ├── HistoryView.jsx    # 14-day grid, streaks, 30-day stats
+│       ├── useFitnessStore.js # State, optimistic writes, streak + stats
+│       └── components/        # Habit rows, editor sheet, Home Today card
 ├── views/
 │   ├── UserSelect.jsx         # Initial profile picker
 │   ├── UserSwitcher.jsx       # Switch profile modal
@@ -98,6 +106,8 @@ src/
     │   └── InsightsView.jsx
     └── shared/
         ├── BottomSheet.jsx
+        ├── Segmented.jsx
+        ├── SetupNotice.jsx
         ├── Icon.jsx
         └── UserAvatar.jsx
 ```
@@ -112,6 +122,8 @@ src/
 | `experiences` | Post-date feedback (one per plan) |
 | `shopping_lists` | Lists (Moabit Home, Mitte Home + custom, archivable) |
 | `shopping_items` | Items; cleared items are kept for autocomplete |
+| `habits` | What each person tracks (yes/no, training, number) |
+| `habit_logs` | One row per habit per day; no row = not done |
 
 ---
 
@@ -124,5 +136,6 @@ src/
 - **Mutual Top 5** — average of both rankings
 - **Post-date experience** — rate mood, fun, would repeat
 - **Insights** — stats, charts, badges
+- **Fitness** — daily habits per person, training detail, sleep, streaks and history
 - **Shopping lists** — one per home plus event lists, check off together in real time, autocomplete, move items between homes
 - **Full CRUD** — add, edit notes, change status, delete plans

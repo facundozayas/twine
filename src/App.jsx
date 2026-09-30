@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import './index.css'
 import { useTwineStore } from './store/useTwineStore.js'
 import { useListsStore } from './features/lists/useListsStore.js'
+import { useFitnessStore } from './features/fitness/useFitnessStore.js'
+import { today } from './lib/dates.js'
 import { onAppResume } from './lib/realtime.js'
 import { USERS, T } from './constants/index.js'
 
@@ -14,6 +16,7 @@ import HelpPanel    from './views/HelpPanel.jsx'
 import HomeView     from './views/HomeView.jsx'
 import PlansHub     from './views/PlansHub.jsx'
 import ListsView    from './features/lists/ListsView.jsx'
+import FitnessView  from './features/fitness/FitnessView.jsx'
 import AddPlanModal from './components/plans/AddPlanModal.jsx'
 
 // ── Toast component ──────────────────────────────────────────────────────────
@@ -42,6 +45,7 @@ export default function App() {
   const [showAdd, setShowAdd]           = useState(false)
   const [showSwitcher, setShowSwitcher] = useState(false)
   const [showHelp, setShowHelp]         = useState(false)
+  const [fitness, setFitness]           = useState({ section: 'today', date: today(), personId: null })
 
   const {
     currentUserId, plans, loading, error, toast,
@@ -52,16 +56,20 @@ export default function App() {
 
   const fetchLists     = useListsStore(s => s.fetchAll)
   const subscribeLists = useListsStore(s => s.subscribe)
+  const fetchFitness     = useFitnessStore(s => s.fetchAll)
+  const subscribeFitness = useFitnessStore(s => s.subscribe)
 
   useEffect(() => {
     restoreUser()
     fetchPlans()
     fetchLists()
-    const unsubPlans = subscribeRealtime()
-    const unsubLists = subscribeLists()
+    fetchFitness()
+    const unsubPlans   = subscribeRealtime()
+    const unsubLists   = subscribeLists()
+    const unsubFitness = subscribeFitness()
     // Catch up on anything missed while the phone was locked
-    const unsubResume = onAppResume(() => { fetchPlans(); fetchLists() })
-    return () => { unsubPlans(); unsubLists(); unsubResume() }
+    const unsubResume = onAppResume(() => { fetchPlans(); fetchLists(); fetchFitness() })
+    return () => { unsubPlans(); unsubLists(); unsubFitness(); unsubResume() }
   }, [])
 
   const currentUser = currentUserId ? USERS[currentUserId] : null
@@ -69,11 +77,12 @@ export default function App() {
   // Accepts a tab id or an old plans sub-view id ('rank', 'insights', 'plans')
   const navigate = (target) => {
     if (PLAN_SECTIONS[target]) { setPlanSection(PLAN_SECTIONS[target]); setTab('plans') }
+    else if (target === 'fitness') { setFitness(f => ({ ...f, section: 'today', date: today(), personId: currentUserId })); setTab('fitness') }
     else setTab(target)
   }
 
   const handleSelectUser = (userId) => { setUser(userId); setTab('home') }
-  const handleSwitchUser = (userId) => { setUser(userId); setTab('home') }
+  const handleSwitchUser = (userId) => { setUser(userId); setTab('home'); setFitness(f => ({ ...f, personId: null })) }
 
   if (!currentUser) return <UserSelect onSelect={handleSelectUser} />
 
@@ -83,8 +92,13 @@ export default function App() {
   }
 
   const renderView = () => {
-    // Lists load independently, so a plans hiccup never blocks the shopping list
+    // Lists and Fitness load independently, so a plans hiccup never blocks them
     if (tab === 'lists') return <ListsView currentUser={currentUser} />
+    if (tab === 'fitness') {
+      // Default the person switch to whoever is using this phone
+      const state = { ...fitness, personId: fitness.personId || currentUser.id }
+      return <FitnessView currentUser={currentUser} state={state} onChange={setFitness} />
+    }
 
     if (loading && plans.length === 0) {
       return (
@@ -118,7 +132,7 @@ export default function App() {
       <Header
         currentUser={currentUser}
         onSwitchUser={() => setShowSwitcher(true)}
-        onAddPlan={tab === 'lists' ? null : () => setShowAdd(true)}
+        onAddPlan={tab === 'home' || tab === 'plans' ? () => setShowAdd(true) : null}
         onHelp={() => setShowHelp(true)}
       />
       <main style={{ padding: '4px 20px 100px' }} key={tab + currentUserId}>

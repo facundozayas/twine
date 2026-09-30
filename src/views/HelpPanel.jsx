@@ -4,6 +4,10 @@ import Icon from '../components/shared/Icon.jsx'
 
 const SECTIONS = [
   {
+    emoji: '🏃', title: 'Fitness',
+    content: 'Open Fitness (or tap the habits in the Today card on Home). Tap a habit to mark it done — tap again to undo. When you tick Training, pick the type and add km or a note if you like. Sleep uses − and +. Use the arrows at the top to fill in a day you forgot, and the Facu / Janina switch to see each other. History shows the last two weeks, your streaks 🔥 and 30-day stats; tap any day there to edit it. "Edit habits" lets you hide a habit or add new ones (like Water).',
+  },
+  {
     emoji: '🛒', title: 'Shopping lists',
     content: 'Open Lists. Moabit Home and Mitte Home are always there; tap "New list" for anything else, like a party. Inside a list, type an item and press Enter — the line stays ready for the next one. Tap an item to check it off. Press and hold an item to edit it, move it to the other home, or delete it. "Clear checked" tidies up after shopping (and you can undo it). Lists you no longer need can be archived from the ⋯ menu and restored later.',
   },

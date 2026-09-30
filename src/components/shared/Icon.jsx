@@ -26,6 +26,9 @@ const PATHS = {
   more:     <><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></>,
   archive:  <><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></>,
   chevronD: <polyline points="6 9 12 15 18 9"/>,
+  chevronL: <polyline points="15 18 9 12 15 6"/>,
+  chevronR: <polyline points="9 18 15 12 9 6"/>,
+  activity: <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>,
 }
 
 export default function Icon({ name, size = 20, color = 'currentColor', style }) {

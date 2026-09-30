@@ -6,7 +6,7 @@ export default function Header({ currentUser, onSwitchUser, onAddPlan, onHelp })
     <header style={{ position: 'sticky', top: 0, zIndex: 40, padding: '14px 20px 10px', background: `linear-gradient(${T.bg} 82%, transparent)`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       {/* Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <div style={{ width: 30, height: 30, borderRadius: 9, background: currentUser.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, transition: 'background 0.4s ease' }}>🔗</div>
+        <img src="/favicon.svg" alt="" width={30} height={30} style={{ borderRadius: 9, display: 'block' }} />
         <span className="display" style={{ fontSize: 21, letterSpacing: '-0.02em', color: T.text }}>twine</span>
       </div>
 

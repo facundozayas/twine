@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { T } from '../../constants/index.js'
 import Icon from '../../components/shared/Icon.jsx'
+import SetupNotice, { Spinner } from '../../components/shared/SetupNotice.jsx'
 import { useListsStore, listItems, sortLists } from './useListsStore.js'
 import ListDetail from './ListDetail.jsx'
 import ListFormSheet from './components/ListFormSheet.jsx'
@@ -17,22 +18,8 @@ export default function ListsView({ currentUser }) {
   const openList = openId ? lists.find(l => l.id === openId) : null
   if (openList) return <ListDetail list={openList} currentUser={currentUser} onBack={() => setOpenId(null)} />
 
-  if (!loaded) {
-    return <div style={{ display: 'flex', justifyContent: 'center', padding: 60 }}><div className="spinner" /></div>
-  }
-
-  if (error) {
-    return (
-      <div style={{ padding: '40px 10px', textAlign: 'center' }}>
-        <div style={{ fontSize: 34, marginBottom: 10 }}>🛒</div>
-        <p className="display" style={{ fontSize: 20, marginBottom: 8 }}>Lists aren't set up yet</p>
-        <p style={{ fontSize: 13, color: T.textMuted, lineHeight: 1.6 }}>
-          Run <span className="mono" style={{ color: T.text }}>supabase/002_shopping_lists.sql</span> in the Supabase SQL Editor, then reload.
-        </p>
-        <p style={{ fontSize: 11, color: T.textDim, fontFamily: 'monospace', marginTop: 14, wordBreak: 'break-all' }}>{error}</p>
-      </div>
-    )
-  }
+  if (!loaded) return <Spinner />
+  if (error) return <SetupNotice emoji="🛒" title="Lists aren't set up yet" file="supabase/002_shopping_lists.sql" error={error} />
 
   const handleCreate = async (data) => {
     const row = await createList(data, currentUser.id)

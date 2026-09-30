@@ -12,13 +12,7 @@ export default function UserSelect({ onSelect }) {
     >
       {/* Logo */}
       <div style={{ marginBottom: 40, textAlign: 'center' }}>
-        <div style={{
-          width: 64, height: 64, borderRadius: 18,
-          background: 'linear-gradient(135deg, #FF6B35 0%, #FFB347 100%)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 30, margin: '0 auto 16px',
-          boxShadow: '0 8px 32px rgba(255,107,53,0.35)',
-        }}>🔗</div>
+        <img src="/favicon.svg" alt="Twine" width={72} height={72} style={{ borderRadius: 20, display: 'block', margin: '0 auto 16px', boxShadow: '0 8px 32px rgba(0,0,0,0.45)' }} />
         <h1 className="display" style={{ fontSize: 40, fontWeight: 400, color: T.text, letterSpacing: '-0.02em' }}>twine</h1>
         <p style={{ fontSize: 14, color: T.textMuted, marginTop: 6 }}>Your shared world</p>
       </div>

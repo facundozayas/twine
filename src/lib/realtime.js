@@ -37,3 +37,10 @@ export function upsertById(rows, row) {
   next[i] = { ...rows[i], ...row }
   return next
 }
+
+/** Apply one postgres_changes payload to an array of rows. */
+export function applyChange(rows, payload) {
+  return payload.eventType === 'DELETE'
+    ? rows.filter(r => r.id !== payload.old.id)
+    : upsertById(rows, payload.new)
+}
